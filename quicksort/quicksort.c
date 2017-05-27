@@ -7,8 +7,9 @@ static
 void partition(int *vec, int left, int right, int *left_of_mid, int *right_of_mid){
 	int pivot, aux;
 
-	pivot = MEDIAN(vec[left], vec[right], vec[(left+right)/2]);
-	
+	//pivot = MEDIAN(vec[left], vec[right], vec[(left+right)/2]);
+	pivot = vec[(left+right) >> 1];
+
 	while(left <= right){
 		while(vec[left] < pivot) left++;
 		while(vec[right] > pivot) right--;
