@@ -4,7 +4,7 @@
 #define MEDIAN(X, Y, Z) (X<=Y?(X>=Z?X:(Z<=Y?Z:Y)):(Y>=Z?Y:(X<=Z?X:Z)))
 
 static
-void partition_ascend(int *vec, int left, int right, int *left_of_mid, int *right_of_mid){
+void partition(int *vec, int left, int right, int *left_of_mid, int *right_of_mid){
 	int pivot, aux;
 
 	pivot = MEDIAN(vec[left], vec[right], vec[(left+right)/2]);
@@ -34,7 +34,7 @@ void quicksort(int *vec, int left, int right){
 	int i, j;
 
 	if(right <= left) return;
-	partition_ascend(vec, left, right, &i, &j);
+	partition(vec, left, right, &i, &j);
 	quicksort(vec, left, i);
 	quicksort(vec, j, right);
 }

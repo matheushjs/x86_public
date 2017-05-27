@@ -38,10 +38,12 @@ read_integer:
 read_exit:
     mov    [vector_size], r12
 
-do_something:
-    ;mov    rdi, [vector]
-    ;mov    rsi, [size]
-    ;call   quicksort
+    ;quicksort(vector, 0, size-1)
+    mov    rdi, [vector]
+    xor    esi, esi
+    mov    edx, [vector_size]
+    add    edx, -1
+    call   quicksort
 
     mov    r13, 0
     mov    rbx, [vector]
@@ -62,4 +64,37 @@ print_exit:
     mov    rdi, [vector]
     call   free
     add    rsp, 8
+    ret
+
+; rdi: int *vec
+; esi: int left
+; edx: int right
+quicksort:
+    add    rsp, -24 ;16-aligned
+    mov    [rsp+8], rdi
+    mov    DWORD [rsp+16], esi
+    mov    DWORD [rsp+20], edx
+
+    ; [rsp]   - int i
+    ; [rsp+4] - int j
+
+    cmp    rsi, rdx
+    jle    quicksort_return
+
+    ; call partition here
+
+    ;quicksort(vec, left, i)
+    mov    rdi, [rsp+8]
+    mov    esi, DWORD[rsp+16]
+    mov    edx, DWORD[rsp]
+    call   quicksort
+
+    ;quicksort(vec, j, right)
+    mov    rdi, [rsp+8]
+    mov    esi, DWORD[rsp+16]
+    mov    edx, DWORD[rsp]
+    call   quicksort
+
+quicksort_return:
+    add    rsp, 24
     ret
